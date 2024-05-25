@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
@@ -13,7 +14,7 @@ import lombok.Getter;
 import ru.itmo.client.controller.*;
 import ru.itmo.client.utility.runtime.Runner;
 import ru.itmo.client.utility.runtime.ServerConnection;
-import ru.itmo.general.models.Ticket;
+import ru.itmo.general.models.Route;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -30,7 +31,7 @@ public class MainApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        this.primaryStage.setTitle("Ticket Management System");
+        this.primaryStage.setTitle("Route Management System");
 
         Locale.setDefault(new Locale("ru"));
         ResourceBundle bundle = ResourceBundle.getBundle("messages", Locale.getDefault());
@@ -114,17 +115,19 @@ public class MainApp extends Application {
             controller.setMainApp(this);
             controller.setRunner(runner);
             controller.setBundle(bundle);
-            controller.fetchTickets();
+            controller.fetchRoutes();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public boolean showTicketEditDialog(Ticket ticket) {
+
+    public boolean showRouteEditDialog(Route route) {
         try {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(MainApp.class.getResource("/view/TicketEditDialog.fxml"));
-            BorderPane page = loader.load();
+            loader.setLocation(MainApp.class.getResource("/view/RouteEditDialog.fxml"));
+            loader.setResources(bundle);
+            VBox page = loader.load(); // Измените BorderPane на VBox, если в FXML используется VBox
 
             Stage dialogStage = new Stage();
             dialogStage.setTitle(bundle.getString("edit.title"));
@@ -133,9 +136,9 @@ public class MainApp extends Application {
             Scene scene = new Scene(page);
             dialogStage.setScene(scene);
 
-            TicketEditDialogController controller = loader.getController();
+            RouteEditDialogController controller = loader.getController();
             controller.setDialogStage(dialogStage);
-            controller.setTicket(ticket);
+            controller.setRoute(route);
             controller.setBundle(bundle);
 
             dialogStage.showAndWait();
@@ -145,6 +148,34 @@ public class MainApp extends Application {
             return false;
         }
     }
+
+
+//    public boolean showRouteEditDialog(Route route) {
+//        try {
+//            FXMLLoader loader = new FXMLLoader();
+//            loader.setLocation(MainApp.class.getResource("/view/RouteEditDialog.fxml"));
+//            loader.setResources(bundle);
+//            BorderPane page = loader.load();
+//
+//            Stage dialogStage = new Stage();
+//            dialogStage.setTitle(bundle.getString("edit.title"));
+//            dialogStage.initModality(Modality.WINDOW_MODAL);
+//            dialogStage.initOwner(primaryStage);
+//            Scene scene = new Scene(page);
+//            dialogStage.setScene(scene);
+//
+//            RouteEditDialogController controller = loader.getController();
+//            controller.setDialogStage(dialogStage);
+//            controller.setRoute(route);
+//            controller.setBundle(bundle);
+//
+//            dialogStage.showAndWait();
+//            return controller.isOkClicked();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+//    }
 
     public static void main(String[] args) {
         Application.launch(args);
@@ -162,6 +193,7 @@ public class MainApp extends Application {
     public Window getPrimaryStage() {
         return primaryStage;
     }
+
     public static boolean showConfirmationDialog(String title, String header, String content) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(title);
@@ -171,5 +203,4 @@ public class MainApp extends Application {
         Optional<ButtonType> result = alert.showAndWait();
         return result.isPresent() && result.get() == ButtonType.OK;
     }
-
 }

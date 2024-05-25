@@ -5,7 +5,7 @@ import ru.itmo.general.commands.CommandName;
 import ru.itmo.general.exceptions.EmptyValueException;
 import ru.itmo.general.exceptions.InvalidNumberOfElementsException;
 import ru.itmo.general.managers.CollectionManager;
-import ru.itmo.general.models.Ticket;
+import ru.itmo.general.models.Route;
 import ru.itmo.general.network.Request;
 import ru.itmo.general.network.Response;
 
@@ -15,16 +15,16 @@ import ru.itmo.general.network.Response;
  * @author zevtos
  */
 public class MaxByName extends Command {
-    private CollectionManager<Ticket> ticketCollectionManager;
+    private CollectionManager<Route> routeCollectionManager;
 
     public MaxByName() {
         super(CommandName.MAX_BY_NAME, "вывести любой объект из коллекции, значение поля name которого является максимальным");
 
     }
 
-    public MaxByName(CollectionManager<Ticket> ticketCollectionManager) {
+    public MaxByName(CollectionManager<Route> routeCollectionManager) {
         this();
-        this.ticketCollectionManager = ticketCollectionManager;
+        this.routeCollectionManager = routeCollectionManager;
     }
 
     /**
@@ -35,9 +35,9 @@ public class MaxByName extends Command {
     @Override
     public Response execute(Request request) {
         try {
-            if (ticketCollectionManager.collectionSize() == 0) throw new EmptyValueException();
-            Ticket ticket = maxByName();
-            return new Response(true, null, ticket.toString());
+            if (routeCollectionManager.collectionSize() == 0) throw new EmptyValueException();
+            Route route = maxByName();
+            return new Response(true, null, route.toString());
 
         } catch (EmptyValueException exception) {
             return new Response(false, "Коллекция пуста!", null);
@@ -61,16 +61,16 @@ public class MaxByName extends Command {
         }
     }
 
-    private Ticket maxByName() {
+    private Route maxByName() {
         String maxName = "";
-        int ticketId = -1;
-        for (Ticket c : ticketCollectionManager.getCollection()) {
+        int routeId = -1;
+        for (Route c : routeCollectionManager.getCollection()) {
             if (c.getName().compareTo(maxName) < 0) {
                 maxName = c.getName();
-                ticketId = c.getId();
+                routeId = c.getId();
             }
         }
-        if (ticketId == -1) return ticketCollectionManager.getFirst();
-        return ticketCollectionManager.byId(ticketId);
+        if (routeId == -1) return routeCollectionManager.getFirst();
+        return routeCollectionManager.byId(routeId);
     }
 }

@@ -3,7 +3,7 @@ package ru.itmo.general.commands.core;
 import ru.itmo.general.commands.Command;
 import ru.itmo.general.commands.CommandName;
 import ru.itmo.general.managers.CollectionManager;
-import ru.itmo.general.models.Ticket;
+import ru.itmo.general.models.Route;
 import ru.itmo.general.network.Request;
 import ru.itmo.general.network.Response;
 
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
  * @author zevtos
  */
 public class Info extends Command {
-    private CollectionManager<Ticket> ticketCollectionManager;
+    private CollectionManager<Route> routeCollectionManager;
 
     public Info() {
         super(CommandName.INFO, "вывести информацию о коллекции");
@@ -24,11 +24,11 @@ public class Info extends Command {
     /**
      * Конструктор для создания экземпляра команды Info.
      *
-     * @param ticketCollectionManager менеджер коллекции билетов
+     * @param routeCollectionManager менеджер коллекции билетов
      */
-    public Info(CollectionManager<Ticket> ticketCollectionManager) {
+    public Info(CollectionManager<Route> routeCollectionManager) {
         this();
-        this.ticketCollectionManager = ticketCollectionManager;
+        this.routeCollectionManager = routeCollectionManager;
     }
 
     /**
@@ -40,16 +40,16 @@ public class Info extends Command {
     @Override
     public Response execute(Request arguments) {
 
-        LocalDateTime ticketLastSaveTime = ticketCollectionManager.getLastSaveTime();
-        String ticketLastSaveTimeString = (ticketLastSaveTime == null) ? "в данной сессии сохранения еще не происходило" :
-                ticketLastSaveTime.toLocalDate().toString() + " " + ticketLastSaveTime.toLocalTime().toString();
+        LocalDateTime routeLastSaveTime = routeCollectionManager.getLastSaveTime();
+        String routeLastSaveTimeString = (routeLastSaveTime == null) ? "в данной сессии сохранения еще не происходило" :
+                routeLastSaveTime.toLocalDate().toString() + " " + routeLastSaveTime.toLocalTime().toString();
 
         String message;
 
         message = "Сведения о коллекции:" + '\n' +
-                " Тип: " + ticketCollectionManager.collectionType() + '\n' +
-                " Количество элементов Ticket: " + ticketCollectionManager.collectionSize() + '\n' +
-                " Дата последнего сохранения:" + ticketLastSaveTimeString;
+                " Тип: " + routeCollectionManager.collectionType() + '\n' +
+                " Количество элементов Route: " + routeCollectionManager.collectionSize() + '\n' +
+                " Дата последнего сохранения:" + routeLastSaveTimeString;
 
         return new Response(true, null, message);
     }

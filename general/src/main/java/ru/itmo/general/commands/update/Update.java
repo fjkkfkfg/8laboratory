@@ -4,12 +4,11 @@ import ru.itmo.general.commands.Command;
 import ru.itmo.general.commands.CommandName;
 import ru.itmo.general.exceptions.*;
 import ru.itmo.general.managers.CollectionManager;
-import ru.itmo.general.models.Ticket;
+import ru.itmo.general.models.Route;
 import ru.itmo.general.models.forms.Form;
 import ru.itmo.general.network.Request;
 import ru.itmo.general.network.Response;
 import ru.itmo.general.utility.base.Accessible;
-import ru.itmo.general.utility.console.Console;
 
 import java.rmi.AccessException;
 
@@ -19,23 +18,23 @@ import java.rmi.AccessException;
  * @author zevtos
  */
 public class Update extends Command {
-    private CollectionManager<Ticket> ticketCollectionManager;
-    private Form<Ticket> ticketForm;
+    private CollectionManager<Route> routeCollectionManager;
+    private Form<Route> routeForm;
     private Accessible dao;
 
     public Update() {
         super(CommandName.UPDATE, "<ID> {element} обновить значение элемента коллекции по ID");
     }
 
-    public Update(CollectionManager<Ticket> ticketCollectionManager, Accessible dao) {
+    public Update(CollectionManager<Route> routeCollectionManager, Accessible dao) {
         this();
-        this.ticketCollectionManager = ticketCollectionManager;
+        this.routeCollectionManager = routeCollectionManager;
         this.dao = dao;
     }
 
-    public Update(Form<Ticket> ticketForm) {
+    public Update(Form<Route> routeForm) {
         this();
-        this.ticketForm = ticketForm;
+        this.routeForm = routeForm;
     }
 
     /**
@@ -46,15 +45,15 @@ public class Update extends Command {
     @Override
     public Response execute(Request request) {
         try {
-            if (ticketCollectionManager.collectionSize() == 0) throw new EmptyValueException();
+            if (routeCollectionManager.collectionSize() == 0) throw new EmptyValueException();
 
-            var new_ticket = ((Ticket) request.getData());
-            var id = new_ticket.getId();
-            var ticket = ticketCollectionManager.byId(id);
-            if (ticket == null) throw new NotFoundException();
-            if (!dao.checkOwnership(ticket.getId(), request.getUserId()))
+            var new_route = ((Route) request.getData());
+            var id = new_route.getId();
+            var route = routeCollectionManager.byId(id);
+            if (route == null) throw new NotFoundException();
+            if (!dao.checkOwnership(route.getId(), request.getUserId()))
                 throw new AccessException("У вас нет доступа к этому билету");
-            ticket.update(new_ticket);
+            route.update(new_route);
 
             return new Response(true, "Билет успешно обновлен.");
 
@@ -80,9 +79,9 @@ public class Update extends Command {
 
             var id = Integer.parseInt(arguments[1]);
 
-            var newTicket = ticketForm.build();
-            newTicket.setId(id);
-            return new Request(getName(), newTicket);
+            var newRoute = routeForm.build();
+            newRoute.setId(id);
+            return new Request(getName(), newRoute);
 
         } catch (InvalidNumberOfElementsException exception) {
             return new Request(false,

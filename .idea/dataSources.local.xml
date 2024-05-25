@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="dataSourceStorageLocal" created-in="IU-241.15989.150">
+  <component name="dataSourceStorageLocal" created-in="IU-232.10072.27">
     <data-source name="studs@localhost" uuid="7f13d871-ed9c-4480-b0e2-149bfd86731d">
       <database-info product="PostgreSQL" version="16.2" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.6.0" dbms="POSTGRES" exact-version="16.2" exact-driver-version="42.6">
         <identifier-quote-string>&quot;</identifier-quote-string>
@@ -22,9 +22,28 @@
       </schema-mapping>
     </data-source>
     <data-source name="postgres@localhost [2]" uuid="29b7daff-6af3-4ead-8ca9-cb86d36ad52d">
-      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="POSTGRES" />
+      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="POSTGRES" exact-version="0" />
       <secret-storage>master_key</secret-storage>
       <schema-mapping />
+    </data-source>
+    <data-source name="studss@pg" uuid="62068816-3f6c-4942-a6a9-53d6edea04da">
+      <database-info product="PostgreSQL" version="14.2" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.6.0" dbms="POSTGRES" exact-version="14.2" exact-driver-version="42.6">
+        <identifier-quote-string>&quot;</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>s408534</user-name>
+      <schema-mapping>
+        <introspection-scope>
+          <node kind="database" qname="@">
+            <node kind="schema" qname="@" />
+          </node>
+        </introspection-scope>
+      </schema-mapping>
+      <ssh-properties>
+        <enabled>true</enabled>
+        <ssh-config-id>70ec96f1-aab4-4ac4-887b-df9942f3845c</ssh-config-id>
+      </ssh-properties>
     </data-source>
   </component>
 </project>

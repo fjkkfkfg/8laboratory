@@ -6,11 +6,10 @@ import ru.itmo.general.exceptions.EmptyValueException;
 import ru.itmo.general.exceptions.InvalidNumberOfElementsException;
 import ru.itmo.general.exceptions.NotFoundException;
 import ru.itmo.general.managers.CollectionManager;
-import ru.itmo.general.models.Ticket;
+import ru.itmo.general.models.Route;
 import ru.itmo.general.network.Request;
 import ru.itmo.general.network.Response;
 import ru.itmo.general.utility.base.Accessible;
-import ru.itmo.general.utility.console.Console;
 
 import java.rmi.AccessException;
 
@@ -20,21 +19,21 @@ import java.rmi.AccessException;
  * @author zevtos
  */
 public class Remove extends Command {
-    private CollectionManager<Ticket> ticketCollectionManager;
+    private CollectionManager<Route> routeCollectionManager;
     private Accessible dao;
 
     public Remove() {
-        super(CommandName.REMOVE_BY_ID, "<ID> удалить ticket из коллекции по ID");
+        super(CommandName.REMOVE_BY_ID, "<ID> удалить route из коллекции по ID");
     }
 
     /**
      * Конструктор для создания экземпляра команды Remove.
      *
-     * @param ticketCollectionManager менеджер коллекции билетов
+     * @param routeCollectionManager менеджер коллекции билетов
      */
-    public Remove(CollectionManager<Ticket> ticketCollectionManager, Accessible dao) {
+    public Remove(CollectionManager<Route> routeCollectionManager, Accessible dao) {
         this();
-        this.ticketCollectionManager = ticketCollectionManager;
+        this.routeCollectionManager = routeCollectionManager;
         this.dao = dao;
     }
 
@@ -48,12 +47,12 @@ public class Remove extends Command {
     public Response execute(Request request) {
         try {
 
-            if (ticketCollectionManager.collectionSize() == 0) throw new EmptyValueException();
+            if (routeCollectionManager.collectionSize() == 0) throw new EmptyValueException();
 
             var id = ((Integer) request.getData());
             if (!dao.checkOwnership(id, request.getUserId()))
                 throw new AccessException("У вас нет доступа к этому билету");
-            if (!ticketCollectionManager.remove(id)) throw new NotFoundException();
+            if (!routeCollectionManager.remove(id)) throw new NotFoundException();
 
             return new Response(true, "Билет успешно удален.");
 

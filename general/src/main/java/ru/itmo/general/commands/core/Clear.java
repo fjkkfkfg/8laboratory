@@ -3,7 +3,7 @@ package ru.itmo.general.commands.core;
 import ru.itmo.general.commands.Command;
 import ru.itmo.general.commands.CommandName;
 import ru.itmo.general.managers.CollectionManager;
-import ru.itmo.general.models.Ticket;
+import ru.itmo.general.models.Route;
 import ru.itmo.general.network.Request;
 import ru.itmo.general.network.Response;
 
@@ -13,13 +13,13 @@ import ru.itmo.general.network.Response;
  * @author zevtos
  */
 public class Clear extends Command {
-    private CollectionManager<Ticket> ticketCollectionManager;
+    private CollectionManager<Route> ticketCollectionManager;
 
     public Clear() {
         super(CommandName.CLEAR, "очистить коллекцию");
     }
 
-    public Clear(CollectionManager<Ticket> ticketCollectionManager) {
+    public Clear(CollectionManager<Route> ticketCollectionManager) {
         this();
         this.ticketCollectionManager = ticketCollectionManager;
     }

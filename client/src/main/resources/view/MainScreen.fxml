@@ -25,14 +25,9 @@
                 <TableColumn fx:id="nameColumn" text="%main.name" styleClass="table-column"/>
                 <TableColumn fx:id="coordinatesColumn" text="%main.coordinates" styleClass="table-column"/>
                 <TableColumn fx:id="creationDateColumn" text="%main.creationDate" styleClass="table-column"/>
-                <TableColumn fx:id="priceColumn" text="%main.price" styleClass="table-column"/>
-                <TableColumn fx:id="discountColumn" text="%main.discount" styleClass="table-column"/>
-                <TableColumn fx:id="commentColumn" text="%main.comment" styleClass="table-column"/>
-                <TableColumn fx:id="typeColumn" text="%main.type" styleClass="table-column"/>
-                <TableColumn fx:id="columnBirthday" text="%main.column.birthday" styleClass="table-column"/>
-                <TableColumn fx:id="columnHeight" text="%main.column.height" styleClass="table-column"/>
-                <TableColumn fx:id="columnPassportID" text="%main.column.passportID" styleClass="table-column"/>
-                <TableColumn fx:id="columnHairColor" text="%main.column.hairColor" styleClass="table-column"/>
+                <TableColumn fx:id="fromColumn" text="%main.from" styleClass="table-column"/>
+                <TableColumn fx:id="toColumn" text="%main.to" styleClass="table-column"/>
+                <TableColumn fx:id="distanceColumn" text="%main.distance" styleClass="table-column"/>
                 <TableColumn fx:id="userIdColumn" text="%main.user.id" styleClass="table-column"/>
             </columns>
         </TableView>
@@ -43,10 +38,7 @@
             <Button text="%main.update.button" fx:id="updateButton" onAction="#handleUpdate" styleClass="button-update"/>
             <Button text="%main.delete.button" fx:id="deleteButton" onAction="#handleDelete" styleClass="button-delete"/>
             <Button text="%main.clear.button" fx:id="clearButton" onAction="#handleClear" styleClass="button-clear"/>
-            <Button text="%main.addIfMin.button" fx:id="addIfMinButton" onAction="#handleAddIfMin" styleClass="button-add-if-min"/>
-            <Button text="%main.sumOfPrice.button" fx:id="sumOfPriceButton" onAction="#handleSumOfPrice" styleClass="button-sum-of-price"/>
             <Button text="%main.executeScript.button" fx:id="executeScriptButton" onAction="#handleExecuteScript" styleClass="button-execute-script"/>
-
         </HBox>
     </bottom>
     <right>
@@ -65,29 +57,14 @@
                     <Label text="%main.creationDate" GridPane.rowIndex="2" GridPane.columnIndex="0" styleClass="details-label"/>
                     <Label fx:id="creationDateLabel" GridPane.rowIndex="2" GridPane.columnIndex="1" styleClass="details-value"/>
 
-                    <Label text="%main.price" GridPane.rowIndex="3" GridPane.columnIndex="0" styleClass="details-label"/>
-                    <Label fx:id="priceLabel" GridPane.rowIndex="3" GridPane.columnIndex="1" styleClass="details-value"/>
+                    <Label text="%main.from" GridPane.rowIndex="3" GridPane.columnIndex="0" styleClass="details-label"/>
+                    <Label fx:id="fromLabel" GridPane.rowIndex="3" GridPane.columnIndex="1" styleClass="details-value"/>
 
-                    <Label text="%main.discount" GridPane.rowIndex="4" GridPane.columnIndex="0" styleClass="details-label"/>
-                    <Label fx:id="discountLabel" GridPane.rowIndex="4" GridPane.columnIndex="1" styleClass="details-value"/>
+                    <Label text="%main.to" GridPane.rowIndex="4" GridPane.columnIndex="0" styleClass="details-label"/>
+                    <Label fx:id="toLabel" GridPane.rowIndex="4" GridPane.columnIndex="1" styleClass="details-value"/>
 
-                    <Label text="%main.comment" GridPane.rowIndex="5" GridPane.columnIndex="0" styleClass="details-label"/>
-                    <Label fx:id="commentLabel" GridPane.rowIndex="5" GridPane.columnIndex="1" styleClass="details-value"/>
-
-                    <Label text="%main.type" GridPane.rowIndex="6" GridPane.columnIndex="0" styleClass="details-label"/>
-                    <Label fx:id="typeLabel" GridPane.rowIndex="6" GridPane.columnIndex="1" styleClass="details-value"/>
-
-                    <Label text="%main.column.birthday" GridPane.rowIndex="7" GridPane.columnIndex="0" styleClass="details-label"/>
-                    <Label fx:id="birthdayLabel" GridPane.rowIndex="7" GridPane.columnIndex="1" styleClass="details-value"/>
-
-                    <Label text="%main.column.height" GridPane.rowIndex="8" GridPane.columnIndex="0" styleClass="details-label"/>
-                    <Label fx:id="heightLabel" GridPane.rowIndex="8" GridPane.columnIndex="1" styleClass="details-value"/>
-
-                    <Label text="%main.column.passportID" GridPane.rowIndex="9" GridPane.columnIndex="0" styleClass="details-label"/>
-                    <Label fx:id="passportIDLabel" GridPane.rowIndex="9" GridPane.columnIndex="1" styleClass="details-value"/>
-
-                    <Label text="%main.column.hairColor" GridPane.rowIndex="10" GridPane.columnIndex="0" styleClass="details-label"/>
-                    <Label fx:id="hairColorLabel" GridPane.rowIndex="10" GridPane.columnIndex="1" styleClass="details-value"/>
+                    <Label text="%main.distance" GridPane.rowIndex="5" GridPane.columnIndex="0" styleClass="details-label"/>
+                    <Label fx:id="distanceLabel" GridPane.rowIndex="5" GridPane.columnIndex="1" styleClass="details-value"/>
                 </children>
             </GridPane>
         </VBox>

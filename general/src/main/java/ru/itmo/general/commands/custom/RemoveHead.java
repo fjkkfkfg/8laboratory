@@ -5,7 +5,7 @@ import ru.itmo.general.commands.CommandName;
 import ru.itmo.general.exceptions.EmptyValueException;
 import ru.itmo.general.exceptions.InvalidNumberOfElementsException;
 import ru.itmo.general.managers.CollectionManager;
-import ru.itmo.general.models.Ticket;
+import ru.itmo.general.models.Route;
 import ru.itmo.general.network.Request;
 import ru.itmo.general.network.Response;
 import ru.itmo.general.utility.base.Accessible;
@@ -18,16 +18,16 @@ import java.rmi.AccessException;
  * @author zevtos
  */
 public class RemoveHead extends Command {
-    private CollectionManager<Ticket> ticketCollectionManager;
+    private CollectionManager<Route> routeCollectionManager;
     private Accessible dao;
 
     public RemoveHead() {
         super(CommandName.REMOVE_HEAD, "вывести первый элемент коллекции и удалить его");
     }
 
-    public RemoveHead(CollectionManager<Ticket> ticketCollectionManager, Accessible dao) {
+    public RemoveHead(CollectionManager<Route> routeCollectionManager, Accessible dao) {
         this();
-        this.ticketCollectionManager = ticketCollectionManager;
+        this.routeCollectionManager = routeCollectionManager;
         this.dao = dao;
     }
 
@@ -39,11 +39,11 @@ public class RemoveHead extends Command {
     @Override
     public Response execute(Request request) {
         try {
-            if (ticketCollectionManager.collectionSize() == 0) throw new EmptyValueException();
-            Ticket ticketToRemove = ticketCollectionManager.getLast();
-            if (!dao.checkOwnership(ticketToRemove.getId(), request.getUserId()))
+            if (routeCollectionManager.collectionSize() == 0) throw new EmptyValueException();
+            Route routeToRemove = routeCollectionManager.getLast();
+            if (!dao.checkOwnership(routeToRemove.getId(), request.getUserId()))
                 throw new AccessException("У вас нет доступа к этому билету");
-            ticketCollectionManager.remove(ticketToRemove);
+            routeCollectionManager.remove(routeToRemove);
             return new Response(true, "Билет успешно удален.");
 
         } catch (EmptyValueException exception) {

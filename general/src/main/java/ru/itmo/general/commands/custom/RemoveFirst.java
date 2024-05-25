@@ -6,7 +6,7 @@ import ru.itmo.general.exceptions.EmptyValueException;
 import ru.itmo.general.exceptions.InvalidNumberOfElementsException;
 import ru.itmo.general.exceptions.NotFoundException;
 import ru.itmo.general.managers.CollectionManager;
-import ru.itmo.general.models.Ticket;
+import ru.itmo.general.models.Route;
 import ru.itmo.general.network.Request;
 import ru.itmo.general.network.Response;
 import ru.itmo.general.utility.base.Accessible;
@@ -19,16 +19,16 @@ import java.rmi.AccessException;
  * @author zevtos
  */
 public class RemoveFirst extends Command {
-    private CollectionManager<Ticket> ticketCollectionManager;
+    private CollectionManager<Route> routeCollectionManager;
     private Accessible dao;
 
     public RemoveFirst() {
         super(CommandName.REMOVE_FIRST, "удалить первый элемент из коллекции");
     }
 
-    public RemoveFirst(CollectionManager<Ticket> ticketCollectionManager, Accessible dao) {
+    public RemoveFirst(CollectionManager<Route> routeCollectionManager, Accessible dao) {
         this();
-        this.ticketCollectionManager = ticketCollectionManager;
+        this.routeCollectionManager = routeCollectionManager;
         this.dao = dao;
     }
 
@@ -40,13 +40,13 @@ public class RemoveFirst extends Command {
     @Override
     public Response execute(Request request) {
         try {
-            if (ticketCollectionManager.collectionSize() == 0) throw new EmptyValueException();
+            if (routeCollectionManager.collectionSize() == 0) throw new EmptyValueException();
 
-            var ticketToRemove = ticketCollectionManager.getFirst();
-            if (ticketToRemove == null) throw new NotFoundException();
-            if (!dao.checkOwnership(ticketToRemove.getId(), request.getUserId()))
+            var routeToRemove = routeCollectionManager.getFirst();
+            if (routeToRemove == null) throw new NotFoundException();
+            if (!dao.checkOwnership(routeToRemove.getId(), request.getUserId()))
                 throw new AccessException("У вас нет доступа к этому билету");
-            ticketCollectionManager.remove(ticketToRemove);
+            routeCollectionManager.remove(routeToRemove);
             return new Response(true, "Билет успешно удален.");
 
         } catch (EmptyValueException exception) {

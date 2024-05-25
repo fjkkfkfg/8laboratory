@@ -3,10 +3,11 @@ package ru.itmo.client.utility.runtime;
 import ru.itmo.client.MainApp;
 import ru.itmo.general.exceptions.ScriptRecursionException;
 import ru.itmo.general.managers.CommandManager;
-import ru.itmo.general.models.Ticket;
+import ru.itmo.general.models.Route;
 import ru.itmo.general.network.Request;
 import ru.itmo.general.network.Response;
 import ru.itmo.general.utility.Interrogator;
+import ru.itmo.client.utility.console.StandartConsole;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -105,38 +106,41 @@ public class Runner {
         }
     }
 
-    public List<Ticket> fetchTickets() {
-        List<Ticket> tickets = connection.receiveTickets();
-        return tickets != null ? tickets : new ArrayList<>();
+    public List<Route> fetchRoutes() {
+        List<Route> routes = connection.receiveRoutes();
+        return routes != null ? routes : new ArrayList<>();
     }
 
-    public boolean addTicket(Ticket newTicket) {
-        Response response = connection.sendCommand("add", newTicket);
+    public int addRoute(Route newRoute) {
+        Response response = connection.sendCommand("add", newRoute);
 
         if (response.isSuccess()) {
-            newTicket.setId((Integer) response.getData());
-            return true;
+            int newId = (Integer) response.getData();
+            newRoute.setId(newId);  // Установите новый ID в объекте Route
+            return newId;
         } else {
-            MainApp.showAlert("Ошибка добавления", "Билет не был добавлен", response.getMessage());
-            return false;
+            MainApp.showAlert("Ошибка добавления", "Маршрут не был добавлен", response.getMessage());
+            return -1;
         }
     }
 
 
-    public void updateTicket(Ticket selectedTicket) {
-        connection.sendCommand("update", selectedTicket);
+
+
+    public void updateRoute(Route selectedRoute) {
+        connection.sendCommand("update", selectedRoute);
     }
 
-    public void deleteTicket(Ticket selectedTicket) {
-        connection.sendCommand("remove_by_id", selectedTicket);
+    public void deleteRoute(Route selectedRoute) {
+        connection.sendCommand("remove_by_id", selectedRoute);
     }
 
-    public boolean clearTickets() {
+    public boolean clearRoutes() {
         Response response = connection.sendCommand("clear", null);
         if (response.isSuccess()) {
             return true;
         } else {
-            MainApp.showAlert("Ошибка очистки билетов", "Билеты не были добавлены", response.getMessage());
+            MainApp.showAlert("Ошибка очистки маршрутов", "Маршруты не были добавлены", response.getMessage());
             return false;
         }
     }
@@ -151,14 +155,14 @@ public class Runner {
         return connection.getCurrentUserId();
     }
 
-    public boolean addTicketIfMin(Ticket newTicket) {
-        Response response = connection.sendCommand("add_if_min", newTicket);
+    public boolean addRouteIfMin(Route newRoute) {
+        Response response = connection.sendCommand("add_if_min", newRoute);
 
         if (response.isSuccess()) {
-            newTicket.setId((Integer) response.getData());
+            newRoute.setId((Integer) response.getData());
             return true;
         } else {
-            MainApp.showAlert("Ошибка добавления", "Билет не был добавлен", response.getMessage());
+            MainApp.showAlert("Ошибка добавления", "Маршрут не был добавлен", response.getMessage());
             return false;
         }
     }

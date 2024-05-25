@@ -2,7 +2,7 @@ package ru.itmo.server.managers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.itmo.server.dao.TicketDAO;
+import ru.itmo.server.dao.RouteDAO;
 import ru.itmo.server.dao.UserDAO;
 
 import java.sql.Connection;
@@ -17,7 +17,7 @@ import static ru.itmo.server.managers.ConnectionManager.*;
  */
 public class DatabaseManager {
     private static final UserDAO userDAO = new UserDAO();
-    private static final TicketDAO ticketDAO = new TicketDAO();
+    private static final RouteDAO ticketDAO = new RouteDAO();
     private static final Logger logger = LoggerFactory.getLogger("DatabaseManager");
 
     /**

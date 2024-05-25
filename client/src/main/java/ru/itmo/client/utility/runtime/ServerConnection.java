@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import ru.itmo.client.network.TCPClient;
 import ru.itmo.general.managers.CommandManager;
-import ru.itmo.general.models.Ticket;
+import ru.itmo.general.models.Route;
 import ru.itmo.general.network.Request;
 import ru.itmo.general.network.Response;
 import ru.itmo.general.utility.gui.GuiMessageOutput;
@@ -72,11 +72,11 @@ public class ServerConnection {
         return response;
     }
 
-    public List<Ticket> receiveTickets() {
+    public List<Route> receiveRoutes() {
         try {
             System.out.println("Ticekts");
             Response response = sendCommand("show", null);
-            return (List<Ticket>) response.getData();
+            return (List<Route>) response.getData();
         } catch (Exception e) {
             e.printStackTrace();
             return null;

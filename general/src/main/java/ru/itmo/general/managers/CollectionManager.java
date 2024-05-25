@@ -7,9 +7,9 @@ import java.util.List;
  * Interface for managing a collection of objects.
  *
  * @param <T> the type of objects in the collection
- * @author zevtos
  */
 public interface CollectionManager<T> {
+
     /**
      * Validates all objects in the collection.
      */
@@ -37,6 +37,13 @@ public interface CollectionManager<T> {
      * @return true if the collection contains the specified object, otherwise false
      */
     boolean contains(T item);
+
+    /**
+     * Gets a free identifier for a new object.
+     *
+     * @return the free identifier
+     */
+    int getFreeId();
 
     /**
      * Adds an object to the collection.
@@ -84,6 +91,11 @@ public interface CollectionManager<T> {
     boolean loadCollection();
 
     /**
+     * Clears the collection.
+     */
+    void clearCollection();
+
+    /**
      * Gets the size of the collection.
      *
      * @return the size of the collection
@@ -117,6 +129,15 @@ public interface CollectionManager<T> {
      * @return the last object in the collection, or null if the collection is empty
      */
     T getLast();
+
+
+    /**
+     * Removes all objects from the collection that belong to the specified user.
+     *
+     * @param userId the ID of the user whose objects should be removed
+     * @return true if the objects are successfully removed, otherwise false
+     */
+    boolean removeAllByUserId(int userId);
 
     boolean clear(int userId);
 }

@@ -11,11 +11,11 @@ import java.sql.*;
  * @author zevtos
  */
 public class ConnectionManager {
-    public static final String DB_URL = "jdbc:postgresql://pg:5432/";
+    public static final String DB_URL = "jdbc:postgresql://localhost:9999/";
     public static final String DB_NAME = "studs";
     private static final Logger LOGGER = LoggerFactory.getLogger("ConnectionManager");
-    private static String USER = "s409315";
-    private static String PASSWORD;
+    private static String USER = "s408534";
+    private static String PASSWORD = "2lmZ2Wd55mvIVujd";
 
     /**
      * Retrieves a database connection.
@@ -24,7 +24,7 @@ public class ConnectionManager {
      */
     public static Connection getConnection() {
         try {
-            return DriverManager.getConnection(DB_URL + DB_NAME);
+            return DriverManager.getConnection(DB_URL + DB_NAME,USER,PASSWORD);
             //return DriverManager.getConnection(DB_URL + DB_NAME, USER, PASSWORD);
         } catch (SQLException e) {
             logError("Connection failed", e);

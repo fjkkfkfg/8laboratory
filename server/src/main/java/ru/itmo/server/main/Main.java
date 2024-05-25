@@ -3,9 +3,9 @@ package ru.itmo.server.main;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.itmo.general.managers.CommandManager;
-import ru.itmo.server.dao.TicketDAO;
+import ru.itmo.server.dao.RouteDAO;
 import ru.itmo.server.dao.UserDAO;
-import ru.itmo.server.managers.collections.TicketCollectionManager;
+import ru.itmo.server.managers.collections.RouteCollectionManager;
 import ru.itmo.server.utility.Runner;
 import ru.itmo.server.utility.network.TCPServer;
 import sun.misc.Signal;
@@ -36,10 +36,10 @@ public class Main {
         runner.setDaemon(true);
         runner.start();
 
-        var ticketCollectionManager = new TicketCollectionManager();
+        var routeCollectionManager = new RouteCollectionManager();
 
         UserDAO userDAO = new UserDAO();
-        CommandManager.initServerCommands(ticketCollectionManager, new TicketDAO(), userDAO);
+        CommandManager.initServerCommands(routeCollectionManager, new RouteDAO(), userDAO);
         TCPServer tcpServer = new TCPServer(PORT);
         tcpServer.start();
     }

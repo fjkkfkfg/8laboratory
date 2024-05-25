@@ -3,11 +3,13 @@ package ru.itmo.general.managers;
 import lombok.Getter;
 import ru.itmo.general.commands.Command;
 import ru.itmo.general.commands.core.*;
-import ru.itmo.general.commands.custom.*;
-import ru.itmo.general.commands.special.SumOfPrice;
-import ru.itmo.general.commands.update.Update;
-import ru.itmo.general.models.Ticket;
+import ru.itmo.general.commands.custom.History;
+import ru.itmo.general.commands.custom.MaxByName;
+import ru.itmo.general.commands.custom.RemoveFirst;
+import ru.itmo.general.commands.custom.RemoveHead;
+import ru.itmo.general.models.Route;
 import ru.itmo.general.models.forms.Form;
+import ru.itmo.general.models.forms.RouteForm;
 import ru.itmo.general.network.Request;
 import ru.itmo.general.network.Response;
 import ru.itmo.general.utility.base.Accessible;
@@ -23,7 +25,6 @@ import java.util.Map;
  * Manages commands.
  * Handles registration and execution of commands.
  *
- * @author zevtos
  */
 public class CommandManager {
     /**
@@ -54,65 +55,53 @@ public class CommandManager {
         register("exit", new Exit());
     }
 
-    public static void initServerCommands(CollectionManager<Ticket> ticketCollectionManager, Accessible dao, Registered userDao) {
+    public static void initServerCommands(CollectionManager<Route> ticketCollectionManager, Accessible dao, Registered userDao) {
         init();
         register("info", new Info(ticketCollectionManager));
         register("show", new Show(ticketCollectionManager));
         register("add", new Add(ticketCollectionManager));
-        register("update", new Update(ticketCollectionManager, dao));
         register("remove_by_id", new Remove(ticketCollectionManager, dao));
         register("clear", new Clear(ticketCollectionManager));
         register("remove_first", new RemoveFirst(ticketCollectionManager, dao));
         register("remove_head", new RemoveHead(ticketCollectionManager, dao));
-        register("add_if_min", new AddIfMin(ticketCollectionManager));
-        register("sum_of_price", new SumOfPrice(ticketCollectionManager));
-        register("min_by_discount", new MinByDiscount(ticketCollectionManager));
         register("max_by_name", new MaxByName(ticketCollectionManager));
         register("register", new Register(userDao));
         register("login", new Login(userDao));
     }
 
-    public static void initClientCommands(Form<Ticket> ticketForm) {
+    public static void initClientCommands(Console console, Form<Route> ticketForm) {
         init();
         register("help", new Help());
         register("info", new Info());
         register("show", new Show());
-        register("add", new Add(ticketForm));
-        register("update", new Update(ticketForm));
+        register("add", new Add((CollectionManager<Route>) console));
         register("remove_by_id", new Remove());
         register("clear", new Clear());
         register("execute_script", new ExecuteScript());
         register("remove_first", new RemoveFirst());
         register("remove_head", new RemoveHead());
-        register("add_if_min", new AddIfMin(ticketForm));
-        register("sum_of_price", new SumOfPrice());
-        register("min_by_discount", new MinByDiscount());
         register("max_by_name", new MaxByName());
         register("history", new History());
-        register("register", new Register());
-        register("login", new Login());
+        register("register", new Register((Registered) console));
+        register("login", new Login((Registered) console));
     }
 
     public static void initClientCommandsBeforeRegistration() {
         init();
-        register("help", new Help());
+        register("Help", new Help());
         register("register", new Register());
         register("login", new Login());
     }
 
-    public static void initClientCommandsAfterRegistration(Form<Ticket> ticketForm) {
+    public static void initClientCommandsAfterRegistration(Console console, RouteForm ticketForm) {
         register("info", new Info());
         register("show", new Show());
-        register("add", new Add(ticketForm));
-        register("update", new Update(ticketForm));
+        register("add", new Add((CollectionManager<Route>) console));
         register("remove_by_id", new Remove());
         register("clear", new Clear());
         register("execute_script", new ExecuteScript());
         register("remove_first", new RemoveFirst());
         register("remove_head", new RemoveHead());
-        register("add_if_min", new AddIfMin(ticketForm));
-        register("sum_of_price", new SumOfPrice());
-        register("min_by_discount", new MinByDiscount());
         register("max_by_name", new MaxByName());
         register("history", new History());
     }
@@ -121,6 +110,7 @@ public class CommandManager {
      * Processes the command received from the client.
      * Executes the command if it exists in the command dictionary.
      * If the command does not exist, returns a Response indicating that the command was not found.
+     * If the command is "exit" or "save", returns a Response indicating that the command is unknown.
      *
      * @param request The request containing the command to be processed.
      * @return The Response generated after processing the command.

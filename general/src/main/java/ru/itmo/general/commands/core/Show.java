@@ -3,7 +3,7 @@ package ru.itmo.general.commands.core;
 import ru.itmo.general.commands.Command;
 import ru.itmo.general.commands.CommandName;
 import ru.itmo.general.managers.CollectionManager;
-import ru.itmo.general.models.Ticket;
+import ru.itmo.general.models.Route;
 import ru.itmo.general.network.Request;
 import ru.itmo.general.network.Response;
 
@@ -15,20 +15,20 @@ import java.util.List;
  * @author zevtos
  */
 public class Show extends Command {
-    private CollectionManager<Ticket> ticketCollectionManager;
+    private CollectionManager<Route> routeCollectionManager;
 
     public Show() {
-        super(CommandName.SHOW, "вывести все элементы коллекции Ticket");
+        super(CommandName.SHOW, "вывести все элементы коллекции Route");
     }
 
     /**
      * Конструктор для создания экземпляра команды Show.
      *
-     * @param ticketCollectionManager менеджер коллекции
+     * @param routeCollectionManager менеджер коллекции
      */
-    public Show(CollectionManager<Ticket> ticketCollectionManager) {
+    public Show(CollectionManager<Route> routeCollectionManager) {
         this();
-        this.ticketCollectionManager = ticketCollectionManager;
+        this.routeCollectionManager = routeCollectionManager;
     }
 
     /**
@@ -39,9 +39,9 @@ public class Show extends Command {
      */
     @Override
     public Response execute(Request arguments) {
-        List<Ticket> tickets = ticketCollectionManager.getCollection();
-        System.out.println(tickets.size());
-        return new Response(true, "Collection fetched successfully", tickets);
+        List<Route> routes = routeCollectionManager.getCollection();
+        System.out.println(routes.size());
+        return new Response(true, "Collection fetched successfully", routes);
     }
 
     /**

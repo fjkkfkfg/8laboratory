@@ -6,11 +6,10 @@ import ru.itmo.general.exceptions.InvalidFormException;
 import ru.itmo.general.exceptions.InvalidNumberOfElementsException;
 import ru.itmo.general.exceptions.InvalidScriptInputException;
 import ru.itmo.general.managers.CollectionManager;
-import ru.itmo.general.models.Ticket;
+import ru.itmo.general.models.Route;
 import ru.itmo.general.models.forms.Form;
 import ru.itmo.general.network.Request;
 import ru.itmo.general.network.Response;
-import ru.itmo.general.utility.console.Console;
 
 /**
  * Команда 'add'. Добавляет новый элемент в коллекцию.
@@ -18,26 +17,26 @@ import ru.itmo.general.utility.console.Console;
  * @author zevtos
  */
 public class Add extends Command {
-    private CollectionManager<Ticket> ticketCollectionManager;
-    private Form<Ticket> ticketForm;
+    private CollectionManager<Route> routeCollectionManager;
+    private Form<Route> routeForm;
 
     public Add() {
-        super(CommandName.ADD, "{element} добавить новый объект Ticket в коллекцию");
+        super(CommandName.ADD, "{element} добавить новый объект Route в коллекцию");
     }
 
     /**
      * Конструктор для создания экземпляра команды Add.
      *
-     * @param ticketCollectionManager менеджер коллекции
+     * @param routeCollectionManager менеджер коллекции
      */
-    public Add(CollectionManager<Ticket> ticketCollectionManager) {
+    public Add(CollectionManager<Route> routeCollectionManager) {
         this();
-        this.ticketCollectionManager = ticketCollectionManager;
+        this.routeCollectionManager = routeCollectionManager;
     }
 
-    public Add(Form<Ticket> ticketForm) {
+    public Add(Form<Route> routeForm) {
         this();
-        this.ticketForm = ticketForm;
+        this.routeForm = routeForm;
     }
 
     /**
@@ -49,12 +48,12 @@ public class Add extends Command {
     @Override
     public Response execute(Request request) {
         try {
-            var ticket = ((Ticket) request.getData());
-            if (!ticket.validate()) {
+            var route = ((Route) request.getData());
+            if (!route.validate()) {
                 return new Response(false, "Билет не добавлен, поля билета не валидны!");
             }
-            ticket.setUserId(request.getUserId());
-            Integer newID = ticketCollectionManager.add(ticket, request.getUserId());
+            route.setUserId(request.getUserId());
+            Integer newID = routeCollectionManager.add(route, request.getUserId());
             if (newID == -1)
                 return new Response(false, "Билет уже существует", -1);
             return new Response(true, "Билет успешно добавлен", newID);
@@ -74,8 +73,8 @@ public class Add extends Command {
         try {
             if (!arguments[1].isEmpty()) throw new InvalidNumberOfElementsException();
 
-            var newTicket = ticketForm.build();
-            return new Request(getName(), newTicket);
+            var newRoute = routeForm.build();
+            return new Request(getName(), newRoute);
 
         } catch (InvalidNumberOfElementsException exception) {
             return new Request(false, getName(), getUsingError());
