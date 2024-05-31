@@ -49,7 +49,7 @@ public class ServerConnection {
         return null;
     }
 
-    private Response sendCommand(Request request) {
+    public Response sendCommand(Request request) {
         if (request.getLogin() == null) {
             request.setLogin(login);
             request.setPassword(password);
@@ -72,14 +72,87 @@ public class ServerConnection {
         return response;
     }
 
+//    public List<Route> receiveRoutes() {
+//        try {
+//            System.out.println("rute$");
+//            Response response = sendCommand("show", null);
+//            return (List<Route>) response.getData();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
+
+//    public List<Route> receiveRoutes() {
+//        try {
+//            System.out.println("Attempting to receive routes");
+//            Response response = sendCommand("show", null);
+//
+//            // Check if the response is successful
+//            if (response != null && response.isSuccess()) {
+//                Object data = response.getData();
+//
+//                // Debug print the data type
+//                System.out.println("Response data type: " + data.getClass().getName());
+//
+//                if (data instanceof List<?>) {
+//                    List<?> list = (List<?>) data;
+//
+//                    // Check if the list is empty
+//                    if (list.isEmpty() || list.get(0) instanceof Route) {
+//                        @SuppressWarnings("unchecked")
+//                        List<Route> routes = (List<Route>) list;
+//                        return routes;
+//                    } else {
+//                        System.err.println("List items are not of type Route");
+//                    }
+//                } else {
+//                    System.err.println("Response data is not a List");
+//                }
+//            } else {
+//                System.err.println("Failed to receive routes, response is null or not successful");
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
+
     public List<Route> receiveRoutes() {
         try {
-            System.out.println("Ticekts");
+            System.out.println("Attempting   to receive routes");
             Response response = sendCommand("show", null);
-            return (List<Route>) response.getData();
+
+            // Check if the response is successful
+            if (response != null && response.isSuccess()) {
+                Object data = response.getData();
+
+                // Debug print the data type
+                System.out.println("Response data type: " + data.getClass().getName());
+
+                if (data instanceof List<?>) {
+                    List<?> list = (List<?>) data;
+
+                    // Check if the list is empty
+                    if (list.isEmpty() || list.get(0) instanceof Route) {
+                        @SuppressWarnings("unchecked")
+                        List<Route> routes = (List<Route>) list;
+                        return routes;
+                    } else {
+                        System.err.println("List items are not of type Route");
+                    }
+                } else {
+                    System.err.println("Response data is not a List");
+                }
+            } else {
+                System.err.println("Failed to receive routes, response is null or not successful");
+            }
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
         }
+        return null;
     }
+
+
+
 }

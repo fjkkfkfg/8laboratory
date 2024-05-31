@@ -21,19 +21,7 @@ import static ru.itmo.server.managers.ConnectionManager.*;
 public class RouteDAO implements Accessible {
     private static final Logger LOGGER = LoggerFactory.getLogger("RouteDAO");
     private static final String SELECT_ALL_TICKETS_SQL = "SELECT * FROM routes";
-//    private static final String CREATE_TICKETS_TABLE_SQL = "CREATE TABLE IF NOT EXISTS routes (" + "id SERIAL PRIMARY KEY," + "name VARCHAR NOT NULL," +
-//            "coordinates_x DOUBLE PRECISION NOT NULL," +
-//            "coordinates_y FLOAT NOT NULL," +
-//            "creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP," +
-//            "from_x BIGINT NOT NULL," +
-//            "from_y INT NOT NULL," +
-//            "to_x BIGINT NOT NULL," +
-//            "to_y INT NOT NULL," +
-//            "location_name TEXT NOT NULL," +
-//            "distance_of_the_route INT NOT NULL," +
-//            "location_y INT NOT NULL," +
-//            "user_id INT," +
-//            "FOREIGN KEY (user_id) REFERENCES users(id))";
+
 
 
     private static final String CREATE_TICKETS_TABLE_SQL = "CREATE TABLE IF NOT EXISTS routes (" +
@@ -41,7 +29,7 @@ public class RouteDAO implements Accessible {
             "name VARCHAR NOT NULL," +
             "coordinates_x DOUBLE PRECISION NOT NULL," +
             "coordinates_y FLOAT NOT NULL," +
-            "creation_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP," +
+            "creation_date TIMESTAMP," +
             "from_x BIGINT NOT NULL," +
             "from_y INT NOT NULL," +
             "from_name TEXT NOT NULL," +  // Assuming you want to store the name of the location 'from'
@@ -52,19 +40,7 @@ public class RouteDAO implements Accessible {
             "user_id INT," +
             "FOREIGN KEY (user_id) REFERENCES users(id))";
 
-//    private static final String INSERT_TICKET_SQL = "INSERT INTO routes ("
-//            + " name," +
-//            " coordinates_x," +
-//            " coordinates_y," +
-//            " creation_date," +
-//            "from_x," +
-//            "from_y," +
-//            "to_x," +
-//            "to_y," +
-//            "location_y," +
-//            "distance_of_the_route," +
-//            " user_id ) " +
-//            "VALUES (?, ?, ?, ?, ?, ?, ?,?,?,?,?)";
+
 
     private static final String INSERT_TICKET_SQL = "INSERT INTO routes (" +
             "name, coordinates_x, coordinates_y, creation_date, " +
@@ -147,12 +123,11 @@ public class RouteDAO implements Accessible {
         statement.setInt(12 ,userId); // User's ID who added the route
     }
 
-
     private void set(PreparedStatement statement, Route route) throws SQLException {
         statement.setString(1, route.getName());
         statement.setDouble(2, route.getCoordinates().x());
         statement.setFloat(3, route.getCoordinates().y());
-        statement.setTimestamp(4, Timestamp.from(route.getCreationDate().toInstant()));
+        statement.setTimestamp(4, new Timestamp(route.getCreationDate().getTime()));
         statement.setLong(5, route.getFrom().getX());
         statement.setInt(6, route.getFrom().getY());
         statement.setString(7, route.getFrom().getName());
@@ -163,25 +138,60 @@ public class RouteDAO implements Accessible {
     }
 
 
+
+//    private void set(PreparedStatement statement, Route route) throws SQLException {
+//        statement.setString(1, route.getName());
+//        statement.setDouble(2, route.getCoordinates().x());
+//        statement.setFloat(3, route.getCoordinates().y());
+//        statement.setTimestamp(4, Timestamp.from(route.getCreationDate().toInstant()));
+//        statement.setLong(5, route.getFrom().getX());
+//        statement.setInt(6, route.getFrom().getY());
+//        statement.setString(7, route.getFrom().getName());
+//        statement.setLong(8, route.getTo().getX());
+//        statement.setInt(9, route.getTo().getY());
+//        statement.setString(10, route.getTo().getName());
+//        statement.setFloat(11, route.getDistance());
+//    }
     /**
      * Retrieves all routes from the database.
      *
      * @return A list of all routes retrieved from the database.
      */
+
     public List<Route> getAllRoutes() {
         List<Route> routes = new ArrayList<>();
-        try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(SELECT_ALL_TICKETS_SQL); ResultSet resultSet = statement.executeQuery()) {
-            while (resultSet.next()) {
-                Route route = extractRouteFromResultSet(resultSet);
-                routes.add(route);
+        try (Connection connection = getConnection()) {
+            if (connection == null) {
+                LOGGER.error("Connection is null");
+                System.out.println("Connection is null");
+                return routes;
+            }
+            System.out.println("Connection established");
+
+            try (PreparedStatement statement = connection.prepareStatement(SELECT_ALL_TICKETS_SQL);
+                 ResultSet resultSet = statement.executeQuery()) {
+                System.out.println("Executing query: " + SELECT_ALL_TICKETS_SQL);
+                while (resultSet.next()) {
+                    Route route = extractRouteFromResultSet(resultSet);
+                    System.out.println("Fetched route: " + route);
+                    routes.add(route);
+                    System.out.println("Added route to list");
+                }
             }
         } catch (NullPointerException exception) {
-            LOGGER.error("Null pointer exception while getting all routes, continuing without getting all routes");
+            LOGGER.error("Null pointer exception while getting all routes: {}", exception.getMessage());
+            exception.printStackTrace();
         } catch (SQLException e) {
             LOGGER.error("Error while retrieving routes from the database: {}", e.getMessage());
+            e.printStackTrace();
         }
         return routes;
     }
+
+
+
+
+
 
     /**
      * Removes a route from the database by its ID.
@@ -233,31 +243,144 @@ public class RouteDAO implements Accessible {
         executeUpdate(connection, CREATE_TICKETS_TABLE_SQL);
     }
 
-
-
     private Route extractRouteFromResultSet(ResultSet resultSet) throws SQLException {
         int id = resultSet.getInt("id");
         String name = resultSet.getString("name");
         double coordinatesX = resultSet.getDouble("coordinates_x");
         float coordinatesY = resultSet.getFloat("coordinates_y");
-        Timestamp creationDateTimestamp = resultSet.getTimestamp("creation_date");
-        Date creationDate = new Date(creationDateTimestamp.getTime());  // Преобразование Timestamp в Date
+        Timestamp creationDate = resultSet.getTimestamp("creation_date");
 
-        // Извлечение информации о начальной и конечной локации
-        Long locationFromX = resultSet.getLong("location_from_x");
-        Integer locationFromY = resultSet.getInt("location_from_y");
-        String locationFromName = resultSet.getString("location_from_name");
-        LocactioN from = new LocactioN(locationFromX, locationFromY, locationFromName);
+        Long fromX = resultSet.getLong("from_x");
+        Integer fromY = resultSet.getInt("from_y");
+        String fromName = resultSet.getString("from_name");
+        LocactioN from = new LocactioN(fromX, fromY, fromName);
 
-        Long locationToX = resultSet.getLong("location_to_x");
-        Integer locationToY = resultSet.getInt("location_to_y");
-        String locationToName = resultSet.getString("location_to_name");
-        LocactioN to = new LocactioN(locationToX, locationToY, locationToName);
+        Long toX = resultSet.getLong("to_x");
+        Integer toY = resultSet.getInt("to_y");
+        String toName = resultSet.getString("to_name");
+        LocactioN to = new LocactioN(toX, toY, toName);
 
-        float distance = resultSet.getFloat("distance"); // Предположим, что такое поле есть в вашей таблице.
+        float distance = resultSet.getFloat("distance_of_the_route");
+        int userId = resultSet.getInt("user_id");
 
-        return new Route(id, name, new CooRDiNates1(coordinatesX, coordinatesY), creationDate, from, to, distance);
+        Route route = new Route(id, name, new CooRDiNates1(coordinatesX, coordinatesY), creationDate, from, to, distance);
+        route.setUserId(userId);
+
+        return route;
     }
+
+
+
+//    private Route extractRouteFromResultSet(ResultSet resultSet) throws SQLException {
+//        int id = resultSet.getInt("id");
+//        String name = resultSet.getString("name");
+//        double coordinatesX = resultSet.getDouble("coordinates_x");
+//        float coordinatesY = resultSet.getFloat("coordinates_y");
+//        Timestamp creationDateTimestamp = resultSet.getTimestamp("creation_date");
+//        // Используем Timestamp напрямую, чтобы избежать проблем с преобразованием
+//        Date creationDate = new Date(creationDateTimestamp.getTime());
+//
+//        Long fromX = resultSet.getLong("from_x");
+//        Integer fromY = resultSet.getInt("from_y");
+//        String fromName = resultSet.getString("from_name");
+//        LocactioN from = new LocactioN(fromX, fromY, fromName);
+//
+//        Long toX = resultSet.getLong("to_x");
+//        Integer toY = resultSet.getInt("to_y");
+//        String toName = resultSet.getString("to_name");
+//        LocactioN to = new LocactioN(toX, toY, toName);
+//
+//        float distance = resultSet.getFloat("distance_of_the_route");
+//
+//        int userId = resultSet.getInt("user_id");
+//
+//        Route route = new Route(id, name, new CooRDiNates1(coordinatesX, coordinatesY), creationDate, from, to, distance);
+//        route.setUserId(userId);
+//
+//        return route;
+//    }
+
+
+//    private Route extractRouteFromResultSet(ResultSet resultSet) throws SQLException {
+//        int id = resultSet.getInt("id");
+//        String name = resultSet.getString("name");
+//        double coordinatesX = resultSet.getDouble("coordinates_x");
+//        float coordinatesY = resultSet.getFloat("coordinates_y");
+//        Timestamp creationDateTimestamp = resultSet.getTimestamp("creation_date");
+//        Date creationDate = new Date(creationDateTimestamp.getTime());
+//
+//        // Извлечение информации о начальной и конечной локации
+//        Long fromX = resultSet.getLong("from_x");
+//        Integer fromY = resultSet.getInt("from_y");
+//        String fromName = resultSet.getString("from_name");
+//        LocactioN from = new LocactioN(fromX, fromY, fromName);
+//
+//        Long toX = resultSet.getLong("to_x");
+//        Integer toY = resultSet.getInt("to_y");
+//        String toName = resultSet.getString("to_name");
+//        LocactioN to = new LocactioN(toX, toY, toName);
+//
+//        float distance = resultSet.getFloat("distance_of_the_route");
+//
+//        // Извлечение user_id
+//        int userId = resultSet.getInt("user_id");
+//
+//        // Создание и возврат объекта Route
+//        Route route = new Route(id, name, new CooRDiNates1(coordinatesX, coordinatesY), creationDate, from, to, distance);
+//        route.setUserId(userId);  // Установим user_id в объект Route
+//
+//        return route;
+//    }
+
+
+//    private Route extractRouteFromResultSet(ResultSet resultSet) throws SQLException {
+//        int id = resultSet.getInt("id");
+//        String name = resultSet.getString("name");
+//        double coordinatesX = resultSet.getDouble("coordinates_x");
+//        float coordinatesY = resultSet.getFloat("coordinates_y");
+//        Timestamp creationDateTimestamp = resultSet.getTimestamp("creation_date");
+//        Date creationDate = new Date(creationDateTimestamp.getTime());  // Преобразование Timestamp в Date
+//
+//        // Извлечение информации о начальной и конечной локации
+//        Long fromX = resultSet.getLong("from_x");
+//        Integer fromY = resultSet.getInt("from_y");
+//        String fromName = resultSet.getString("from_name");
+//        LocactioN from = new LocactioN(fromX, fromY, fromName);
+//
+//        Long toX = resultSet.getLong("to_x");
+//        Integer toY = resultSet.getInt("to_y");
+//        String toName = resultSet.getString("to_name");
+//        LocactioN to = new LocactioN(toX, toY, toName);
+//
+//        float distance = resultSet.getFloat("distance_of_the_route");
+//
+//        return new Route(id, name, new CooRDiNates1(coordinatesX, coordinatesY), creationDate, from, to, distance);
+//    }
+
+
+//    private Route extractRouteFromResultSet(ResultSet resultSet) throws SQLException {
+//        int id = resultSet.getInt("id");
+//        String name = resultSet.getString("name");
+//        double coordinatesX = resultSet.getDouble("coordinates_x");
+//        float coordinatesY = resultSet.getFloat("coordinates_y");
+//        Timestamp creationDateTimestamp = resultSet.getTimestamp("creation_date");
+//        Date creationDate = new Date(creationDateTimestamp.getTime());  // Преобразование Timestamp в Date
+//
+//        // Извлечение информации о начальной и конечной локации
+//        Long locationFromX = resultSet.getLong("location_from_x");
+//        Integer locationFromY = resultSet.getInt("location_from_y");
+//        String locationFromName = resultSet.getString("location_from_name");
+//        LocactioN from = new LocactioN(locationFromX, locationFromY, locationFromName);
+//
+//        Long locationToX = resultSet.getLong("location_to_x");
+//        Integer locationToY = resultSet.getInt("location_to_y");
+//        String locationToName = resultSet.getString("location_to_name");
+//        LocactioN to = new LocactioN(locationToX, locationToY, locationToName);
+//
+//        float distance = resultSet.getFloat("distance"); // Предположим, что такое поле есть в вашей таблице.
+//
+//        return new Route(id, name, new CooRDiNates1(coordinatesX, coordinatesY), creationDate, from, to, distance);
+//    }
 
 
     /**

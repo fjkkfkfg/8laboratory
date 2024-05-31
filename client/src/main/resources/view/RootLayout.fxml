@@ -8,11 +8,11 @@
 <BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.itmo.client.controller.RootLayoutController" stylesheets="@../css/style.css">
     <top>
         <MenuBar styleClass="menu-bar">
-            <Menu text="%menu.file" styleClass="menu">
-                <MenuItem text="%menu.file.exit" onAction="#handleExit" styleClass="menu-item"/>
+            <Menu text="%menu.file" styleClass="menu1">
+                <MenuItem text="%menu.file.exit" onAction="#handleExit" styleClass="menu1"/>
             </Menu>
-            <Menu text="%menu.help" styleClass="menu">
-                <MenuItem text="%menu.help.about" onAction="#handleAbout" styleClass="menu-item"/>
+            <Menu text="%menu.help" styleClass="menu-item1">
+                <MenuItem text="%menu.help.about" onAction="#handleAbout" styleClass="menu-item1"/>
             </Menu>
         </MenuBar>
     </top>

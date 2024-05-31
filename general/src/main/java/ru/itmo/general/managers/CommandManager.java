@@ -7,6 +7,7 @@ import ru.itmo.general.commands.custom.History;
 import ru.itmo.general.commands.custom.MaxByName;
 import ru.itmo.general.commands.custom.RemoveFirst;
 import ru.itmo.general.commands.custom.RemoveHead;
+import ru.itmo.general.commands.update.Update;
 import ru.itmo.general.models.Route;
 import ru.itmo.general.models.forms.Form;
 import ru.itmo.general.models.forms.RouteForm;
@@ -67,6 +68,8 @@ public class CommandManager {
         register("max_by_name", new MaxByName(ticketCollectionManager));
         register("register", new Register(userDao));
         register("login", new Login(userDao));
+        register("update", new Update(ticketCollectionManager, dao));
+
     }
 
     public static void initClientCommands(Console console, Form<Route> ticketForm) {
@@ -93,10 +96,10 @@ public class CommandManager {
         register("login", new Login());
     }
 
-    public static void initClientCommandsAfterRegistration(Console console, RouteForm ticketForm) {
+    public static void initClientCommandsAfterRegistration(Console console,RouteForm ticketForm) {
         register("info", new Info());
         register("show", new Show());
-        register("add", new Add((CollectionManager<Route>) console));
+        register("add", new Add(ticketForm));
         register("remove_by_id", new Remove());
         register("clear", new Clear());
         register("execute_script", new ExecuteScript());

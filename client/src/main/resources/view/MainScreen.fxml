@@ -11,11 +11,16 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
+
 <BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.itmo.client.controller.MainController" stylesheets="@../css/style.css">
     <top>
         <HBox spacing="10" alignment="CENTER_LEFT" styleClass="header-bar">
-            <Button fx:id="helpButton" text="?" onAction="#handleHelp" styleClass="help-button"/>
-            <CheckBox fx:id="filterCheckBox" text="%main.filter.checkbox" styleClass="filter-checkbox"/>
+            <Button fx:id="helpButton" text="?" onAction="#handleHelp" styleClass="menu1"/>
+            <CheckBox fx:id="filterCheckBox" onAction="#handleFilter" text="%main.filter.checkbox" styleClass="filter-checkbox"/>
+
         </HBox>
     </top>
     <center>
@@ -69,4 +74,7 @@
             </GridPane>
         </VBox>
     </right>
+
+
+
 </BorderPane>

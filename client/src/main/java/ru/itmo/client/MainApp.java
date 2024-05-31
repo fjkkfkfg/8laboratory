@@ -150,33 +150,6 @@ public class MainApp extends Application {
     }
 
 
-//    public boolean showRouteEditDialog(Route route) {
-//        try {
-//            FXMLLoader loader = new FXMLLoader();
-//            loader.setLocation(MainApp.class.getResource("/view/RouteEditDialog.fxml"));
-//            loader.setResources(bundle);
-//            BorderPane page = loader.load();
-//
-//            Stage dialogStage = new Stage();
-//            dialogStage.setTitle(bundle.getString("edit.title"));
-//            dialogStage.initModality(Modality.WINDOW_MODAL);
-//            dialogStage.initOwner(primaryStage);
-//            Scene scene = new Scene(page);
-//            dialogStage.setScene(scene);
-//
-//            RouteEditDialogController controller = loader.getController();
-//            controller.setDialogStage(dialogStage);
-//            controller.setRoute(route);
-//            controller.setBundle(bundle);
-//
-//            dialogStage.showAndWait();
-//            return controller.isOkClicked();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            return false;
-//        }
-//    }
-
     public static void main(String[] args) {
         Application.launch(args);
     }

@@ -51,10 +51,10 @@ public class Remove extends Command {
 
             var id = ((Integer) request.getData());
             if (!dao.checkOwnership(id, request.getUserId()))
-                throw new AccessException("У вас нет доступа к этому билету");
+                throw new AccessException("ПХАХАХАХАХХАХАХАХАХАХ БЛЯТЬ у Вас нет доступа");
             if (!routeCollectionManager.remove(id)) throw new NotFoundException();
 
-            return new Response(true, "Билет успешно удален.");
+            return new Response(true, "Маршрут успешно удален.");
 
         } catch (EmptyValueException exception) {
             return new Response(false, "Коллекция пуста!");

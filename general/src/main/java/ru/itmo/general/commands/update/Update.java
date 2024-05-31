@@ -52,7 +52,7 @@ public class Update extends Command {
             var route = routeCollectionManager.byId(id);
             if (route == null) throw new NotFoundException();
             if (!dao.checkOwnership(route.getId(), request.getUserId()))
-                throw new AccessException("У вас нет доступа к этому билету");
+                throw new AccessException("У вас нет доступа к этому маршруту");
             route.update(new_route);
 
             return new Response(true, "Билет успешно обновлен.");
@@ -74,6 +74,7 @@ public class Update extends Command {
      */
     @Override
     public Request execute(String[] arguments) {
+        System.out.println("Началось изменение маршрута");
         try {
             if (arguments[1].isEmpty()) throw new InvalidNumberOfElementsException();
 
