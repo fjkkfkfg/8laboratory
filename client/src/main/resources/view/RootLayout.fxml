@@ -1,19 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.collections.FXCollections?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 
+<?import java.lang.String?>
 <BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.itmo.client.controller.RootLayoutController" stylesheets="@../css/style.css">
     <top>
-        <MenuBar styleClass="menu-bar">
-            <Menu text="%menu.file" styleClass="menu1">
-                <MenuItem text="%menu.file.exit" onAction="#handleExit" styleClass="menu1"/>
-            </Menu>
-            <Menu text="%menu.help" styleClass="menu-item1">
-                <MenuItem text="%menu.help.about" onAction="#handleAbout" styleClass="menu-item1"/>
-            </Menu>
-        </MenuBar>
+        <HBox>
+            <MenuBar styleClass="menu-bar">
+                <Menu text="%menu.file" styleClass="menu1">
+                    <MenuItem text="%menu.file.exit" onAction="#handleExit" styleClass="menu1"/>
+                </Menu>
+                <Menu text="%menu.help" styleClass="menu-item1">
+                    <MenuItem text="%menu.help.about" onAction="#handleAbout" styleClass="menu-item1"/>
+                </Menu>
+            </MenuBar>
+            <ComboBox fx:id="languageComboBox" onAction="#handleLanguageChange">
+                <items>
+                    <FXCollections fx:factory="observableArrayList">
+                        <String fx:value="English"/>
+                        <String fx:value="Русский"/>
+                        <String fx:value="Slovenský"/>
+                        <String fx:value="中文"/>
+                        <String fx:value="Shqip"/>
+                    </FXCollections>
+                </items>
+            </ComboBox>
+        </HBox>
     </top>
 </BorderPane>

@@ -13,6 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.itmo.client.controller.LoginController" stylesheets="@../css/style.css">
+
     <center>
         <VBox spacing="20" alignment="CENTER" styleClass="login-container">
             <Label text="%login.title" styleClass="title-label"/>
