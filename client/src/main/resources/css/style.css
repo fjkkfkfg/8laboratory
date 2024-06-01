@@ -439,3 +439,15 @@
         -fx-background-color: #344955;
         -fx-text-fill: #ffffff; /* Цвет текста белый */
     }
+
+    .canvas {
+        background-color: #120bec; /* Цвет фона для Canvas */
+        border: 1px solid #2d15c7; /* Граница вокруг Canvas */
+        -fx-background-color: #1d08da; /* Цвет фона для Canvas (JavaFX стиль) */
+        -fx-border-color: #0408e0; /* Цвет границы для Canvas (JavaFX стиль) */
+        -fx-border-width: 1px; /* Ширина границы для Canvas (JavaFX стиль) */
+    }
+
+    .data-visualization-pane {
+        -fx-pref-width: 200; /* Установка предпочтительной ширины для правой панели */
+    }

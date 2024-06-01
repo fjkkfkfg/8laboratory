@@ -222,57 +222,6 @@ public class Runner {
         createCommandManager();
     }
 
-//    public ExitCode scriptMode(File file) {
-//        System.out.println("Script mode: " + file.getAbsolutePath());
-//        String argument = file.getAbsolutePath();
-//        scriptSet.add(argument);
-//        if (!file.exists()) {
-//            return ExitCode.ERROR;
-//        }
-//        String[] userCommand;
-//        try (Scanner scriptScanner = new Scanner(file)) {
-//            System.out.println("started successfully");
-//            if (!scriptScanner.hasNext()) throw new NoSuchElementException();
-//            Interrogator.setUserScanner(scriptScanner);
-//            Interrogator.setFileMode();
-//            do {
-//                System.out.println("starting script");
-//                userCommand = (scriptScanner.nextLine().trim() + " ").split(" ", 2);
-//                userCommand[1] = userCommand[1].trim();
-//                if (userCommand[0].equals("execute_script")) {
-//                    if (scriptSet.contains(userCommand[1])) throw new ScriptRecursionException();
-//                }
-//                var command = CommandManager.getCommands().get(userCommand[0]);
-//                if (command == null) {
-//                    return ExitCode.ERROR;
-//                }
-//                var req = command.execute(userCommand);
-//                if (!req.isSuccess()) return Runner.ExitCode.ERROR;
-//                Response response = connection.sendCommand(req);
-//                System.out.println(response.toString());
-//                ExitCode commandStatus;
-//                if (response.isSuccess()) {
-//                    commandStatus = ExitCode.OK;
-//                } else {
-//                    commandStatus = ExitCode.ERROR;
-//                }
-//                if (commandStatus != ExitCode.OK) return commandStatus;
-//            } while (scriptScanner.hasNextLine());
-//
-//        } catch (NoSuchElementException | IllegalStateException exception) {
-//            showError("Ошибка чтения из скрипта.");
-//            return ExitCode.ERROR;
-//        } catch (FileNotFoundException exception) {
-//            showError("Файл не найден");
-//            return ExitCode.ERROR;
-//        } catch (ScriptRecursionException exception) {
-//            showError("Обнаружена рекурсия");
-//            return ExitCode.ERROR;
-//        } finally {
-//            scriptSet.remove(argument);
-//        }
-//        return ExitCode.OK;
-//    }
 
     public ExitCode scriptMode(File file) {
         String argument = file.getAbsolutePath();
@@ -330,12 +279,7 @@ public class Runner {
         CommandManager.initClientCommandsAfterRegistration(console,new RouteForm(new StandartConsole()));
     }
 
-//    private void createCommandManager() {
-//        CommandManager.initClientCommandsBeforeRegistration();
-//        Console console = new StandartConsole();
-//        RouteForm routeForm = new RouteForm(new StandartConsole());
-//        CommandManager.initClientCommandsAfterRegistration(console, routeForm);
-//    }
+
 
     public ExitCode executeRegister(String username, String password) {
         Response response = connection.sendCommand(new String[]{"register", username, password});
@@ -356,10 +300,7 @@ public class Runner {
             return ExitCode.ERROR;
         }
     }
-//    public List<Route> fetchRoutes() {
-//        List<Route> tickets = connection.receiveRoutes();
-//        return tickets != null ? tickets : new ArrayList<>();
-//    }
+
 
     public List<Route> fetchRoutes() {
         System.out.println(1);
@@ -389,22 +330,6 @@ public class Runner {
     }
 
 
-    //public void updateRoute(Route selectedRoute) {
-//        connection.sendCommand("update", selectedRoute);
-//    }
-
-//    public boolean updateRoute(Route selectedRoute) {
-//        Response response = connection.sendCommand("update", selectedRoute);
-//        if (response.isSuccess()) {
-//            System.out.println("Route successfully updated: " + selectedRoute.getId());
-//            return true;
-//        } else {
-//            MainApp.showAlert("Ошибка епта, прав нет", "操你妈！！Маршрут не изменён ",response.getMessage());
-//
-//            System.err.println("Failed to update route: " + selectedRoute.getId() + " - " + response.getMessage());
-//            return false;
-//        }
-//    }
 public boolean updateRoute(Route selectedRoute) {
     Response response = connection.sendCommand("update", selectedRoute);
     if (response.isSuccess()) {
@@ -417,9 +342,7 @@ public boolean updateRoute(Route selectedRoute) {
     }
 }
 
-//    public void deleteRoute(Route selectedRoute) {
-//        connection.sendCommand("remove_by_id", selectedRoute);
-//    }
+
 
     public boolean deleteRoute(Route selectedRoute) {
         int id = selectedRoute.getId();

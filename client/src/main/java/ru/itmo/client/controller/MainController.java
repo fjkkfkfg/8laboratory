@@ -158,16 +158,22 @@ public class MainController {
         if (okClicked) {
             newRoute.setUserId(runner.getCurrentUserId());
             int newId = runner.addRoute(newRoute); // Получите новый ID
-//            boolean newId = runner.addRoute(newRoute); // Получите новый ID
+
             newRoute.setId(newId);
             System.out.println(newId);
-//            if (newId) {
+
             if (newId > 0) {
-                //routeData.add(newRoute); // Добавляем только в routeData
+
 
                 dataTable.getItems().add(newRoute); // Add the ticket directly to the table
                 dataTable.refresh(); // Обновляем таблицу
                 dataTable.sort();
+
+                DataVisualizationController dataVisualizationController = mainApp.getDataVisualizationController();
+                if (dataVisualizationController != null) {
+                    dataVisualizationController.addRoute(newRoute);
+                }
+
                 Notifications.create()
                         .title("Route Added")
                         .text("The route was successfully added." + '\n'
@@ -179,7 +185,6 @@ public class MainController {
         }
     }
 
-
     @FXML
     private void handleUpdate() {
         Route selectedRoute = dataTable.getSelectionModel().getSelectedItem();
@@ -190,6 +195,12 @@ public class MainController {
                 if (success) {
                     showRouteDetails(selectedRoute);
                     dataTable.refresh();
+
+                    DataVisualizationController dataVisualizationController = mainApp.getDataVisualizationController();
+                    if (dataVisualizationController != null) {
+                        dataVisualizationController.updateRoute(selectedRoute);
+                    }
+
                     Notifications.create()
                             .title("Route Updated")
                             .text("The route was successfully updated.")
@@ -212,6 +223,44 @@ public class MainController {
             );
         }
     }
+//    @FXML
+//    private void handleUpdate() {
+//        Route selectedRoute = dataTable.getSelectionModel().getSelectedItem();
+//        if (selectedRoute != null) {
+//            boolean okClicked = mainApp.showRouteEditDialog(selectedRoute);
+//            if (okClicked) {
+//                boolean success = runner.updateRoute(selectedRoute);
+//                if (success) {
+//                    showRouteDetails(selectedRoute);
+//                    dataTable.refresh();
+//
+//                    DataVisualizationController dataVisualizationController = mainApp.getDataVisualizationController();
+//                    if (dataVisualizationController != null) {
+//                        dataVisualizationController.removeRoute(selectedRoute);
+//                    }
+//
+//                    Notifications.create()
+//                            .title("Route Updated")
+//                            .text("The route was successfully updated.")
+//                            .hideAfter(Duration.seconds(3))
+//                            .position(Pos.BOTTOM_RIGHT)
+//                            .showInformation();
+//                } else {
+//                    showAlert(
+//                            bundle.getString("update.error.title"),
+//                            bundle.getString("update.error.header"),
+//                            bundle.getString("update.error.content")
+//                    );
+//                }
+//            }
+//        } else {
+//            showAlert(
+//                    bundle.getString("update.error.title"),
+//                    bundle.getString("update.error.header"),
+//                    bundle.getString("update.error.content")
+//            );
+//        }
+//    }
 
 
 
@@ -227,6 +276,10 @@ public class MainController {
             if (success) {
                 dataTable.getItems().remove(selectedIndex);
                 dataTable.refresh();
+                DataVisualizationController dataVisualizationController = mainApp.getDataVisualizationController();
+                if (dataVisualizationController != null) {
+                    dataVisualizationController.removeRoute(selectedRoute);
+                }
                 Notifications.create()
                         .title("Route Deleted")
                         .text("The route was successfully deleted.")
@@ -237,7 +290,6 @@ public class MainController {
 
         }
     }
-
     @FXML
     private void handleClear() {
         boolean confirmed = MainApp.showConfirmationDialog(
@@ -249,6 +301,10 @@ public class MainController {
             boolean success = runner.clearRoutes();
             if (success) {
                 routeData.clear();
+                DataVisualizationController dataVisualizationController = mainApp.getDataVisualizationController();
+                if (dataVisualizationController != null) {
+                    dataVisualizationController.clearAllRoutes();
+                }
                 MainApp.showAlert(
                         bundle.getString("clear.success.title"),
                         bundle.getString("clear.success.header"),
@@ -261,8 +317,45 @@ public class MainController {
                         bundle.getString("clear.error.content")
                 );
             }
+            fetchRoutes();  // Fetch routes again to reinitialize them
+            DataVisualizationController dataVisualizationController = mainApp.getDataVisualizationController();
+            if (dataVisualizationController != null) {
+                dataVisualizationController.initializeRoutes(routeData);
+            }
         }
     }
+
+//    @FXML
+//    private void handleClear() {
+//        boolean confirmed = MainApp.showConfirmationDialog(
+//                bundle.getString("clear.confirm.title"),
+//                bundle.getString("clear.confirm.header"),
+//                bundle.getString("clear.confirm.content")
+//        );
+//        if (confirmed) {
+//            boolean success = runner.clearRoutes();
+//            if (success) {
+//                routeData.clear();
+//                DataVisualizationController dataVisualizationController = mainApp.getDataVisualizationController();
+//                if (dataVisualizationController != null) {
+//                    dataVisualizationController.clearAllRoutes();
+//                }
+//                MainApp.showAlert(
+//                        bundle.getString("clear.success.title"),
+//                        bundle.getString("clear.success.header"),
+//                        bundle.getString("clear.success.content")
+//                );
+//            } else {
+//                MainApp.showAlert(
+//                        bundle.getString("clear.error.title"),
+//                        bundle.getString("clear.error.header"),
+//                        bundle.getString("clear.error.content")
+//                );
+//            }
+//        }
+//        fetchRoutes();
+//        dataTable.refresh();
+//    }
 
     @FXML
     private void handleHelp() {
@@ -299,56 +392,6 @@ public class MainController {
         });
     }
 
-
-
-//    private void showAlert(Alert.AlertType alertType, String title, String message) {
-//        Alert alert = new Alert(alertType);
-//        alert.setTitle(title);
-//        alert.setHeaderText(null);
-//        alert.setContentText(message);
-//        alert.showAndWait();
-//    }
-
-//    @FXML
-//    public void handleExecuteScript() {
-//        FileChooser fileChooser = new FileChooser();
-//        fileChooser.setTitle("Select Script File");
-//        File file = fileChooser.showOpenDialog(mainApp.getPrimaryStage());
-//        if (file != null) {
-//            new Thread(() -> {
-//                Runner.ExitCode exitCode = runner.scriptMode(file);
-//                if (exitCode == Runner.ExitCode.OK) {
-//                    showAlert(Alert.AlertType.INFORMATION, "Script Execution", "Script executed successfully.");
-//                    fetchRoutes();
-//                } else {
-//                    showAlert(Alert.AlertType.ERROR, "Error", "Script execution failed.");
-//                }
-//            }
-//            ).start();
-//        }
-//    }
-
-//    @FXML
-//    public void handleExecuteScript() {
-//        FileChooser fileChooser = new FileChooser();
-//        fileChooser.setTitle("Select Script File");
-//        File file = fileChooser.showOpenDialog(mainApp.getPrimaryStage());
-//        if (file != null) {
-//            new Thread(() -> {
-//                Runner.ExitCode exitCode = runner.scriptMode(file);
-//                Platform.runLater(() -> {
-//                    if (exitCode == Runner.ExitCode.OK) {
-//                        showAlert(Alert.AlertType.INFORMATION, "Script Execution", "Script executed successfully.");
-//                        fetchRoutes();
-//                    } else {
-//                        showAlert(Alert.AlertType.ERROR, "Error", "Script execution failed.");
-//                    }
-//                });
-//            }).start();
-//        }
-//    }
-
-    @FXML
     public void handleExecuteScript() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select Script File");
@@ -359,7 +402,8 @@ public class MainController {
                 Platform.runLater(() -> {
                     if (exitCode == Runner.ExitCode.OK) {
                         showAlert(Alert.AlertType.INFORMATION, "Script Execution", "Script executed successfully.");
-                        fetchRoutes();
+                        List<Route> routes = runner.fetchRoutes();
+                        setRouteData(routes); // Update table and visualization
                     } else {
                         showAlert(Alert.AlertType.ERROR, "Error", "Script execution failed.");
                     }
@@ -367,6 +411,10 @@ public class MainController {
             }).start();
         }
     }
+
+
+
+
 
 
 
@@ -418,6 +466,25 @@ public class MainController {
         dataTable.setItems(routeData);
         dataTable.refresh();
     }
+
+
+
+    public void setRouteData(List<Route> routes) {
+        routeData.setAll(routes);
+        dataTable.setItems(routeData);
+
+        DataVisualizationController dataVisualizationController = mainApp.getDataVisualizationController();
+        if (dataVisualizationController != null) {
+            dataVisualizationController.setMainController(this);
+            dataVisualizationController.initializeRoutes(routes);
+        }
+    }
+
+    public void selectRoute(Route route) {
+        dataTable.getSelectionModel().select(route);
+    }
+
+
 
     public void fetchUserRoutes() {
         ObservableList<Route> userRoutes = FXCollections.observableArrayList(runner.fetchRoutes()
