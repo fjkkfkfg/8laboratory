@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
  * It encapsulates information about the user, including their ID, username, password hash, salt, and registration date.
  * This class is used for managing user authentication and registration.
  *
- * @author zevtos
  */
 @Getter
 public class User {

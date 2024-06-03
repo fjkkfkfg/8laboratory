@@ -7,7 +7,6 @@ import ru.itmo.general.network.Request;
 /**
  * Команда 'history'. Выводит историю использованных команд.
  *
- * @author zevtos
  */
 public class History extends Command {
 

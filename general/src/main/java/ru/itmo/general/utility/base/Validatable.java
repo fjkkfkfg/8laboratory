@@ -4,7 +4,6 @@ package ru.itmo.general.utility.base;
  * The {@code Validatable} interface represents objects that can be valid or not.
  * Implementing classes should provide a way to validate their state.
  *
- * @author zevtos
  */
 public interface Validatable {
 

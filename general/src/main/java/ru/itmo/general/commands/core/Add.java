@@ -14,7 +14,6 @@ import ru.itmo.general.network.Response;
 /**
  * Команда 'add'. Добавляет новый элемент в коллекцию.
  *
- * @author zevtos
  */
 public class Add extends Command {
     private CollectionManager<Route> routeCollectionManager;

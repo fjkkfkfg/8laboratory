@@ -10,7 +10,6 @@ import java.time.format.DateTimeFormatter;
 /**
  * Адаптер для сериализации и десериализации объектов LocalDateTime в формате JSON.
  *
- * @author zevtos
  */
 public class LocalDateTimeAdapter implements JsonSerializer<LocalDateTime>, JsonDeserializer<LocalDateTime> {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");

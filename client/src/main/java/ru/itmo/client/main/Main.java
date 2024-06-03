@@ -13,7 +13,6 @@ import java.util.Scanner;
 /**
  * Главный класс приложения.
  *
- * @author zevtos
  */
 public class Main {
     private static final int PORT = 4093;

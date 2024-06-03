@@ -12,7 +12,6 @@ import java.util.List;
 /**
  * Команда 'show'. Выводит все элементы коллекции.
  *
- * @author zevtos
  */
 public class Show extends Command {
     private CollectionManager<Route> routeCollectionManager;

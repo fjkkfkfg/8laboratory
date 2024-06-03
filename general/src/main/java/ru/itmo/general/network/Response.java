@@ -5,7 +5,6 @@ package ru.itmo.general.network;
  * It encapsulates information about the success or failure of an operation, along with an optional message and data payload.
  * Responses can be constructed with different combinations of parameters to convey different types of information.
  *
- * @author zevtos
  */
 public class Response extends Sendable {
 

@@ -364,7 +364,7 @@ public boolean updateRoute(Route selectedRoute) {
         if (response.isSuccess()) {
             return true;
         } else {
-            MainApp.showAlert("Ошибка очистки билетов", "Маршруты не были изменены", response.getMessage());
+            MainApp.showAlert("Ошибка очистки маршрутов", "Маршруты не были изменены", response.getMessage());
             return false;
         }
     }

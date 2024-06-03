@@ -8,7 +8,6 @@ import java.sql.*;
 /**
  * Manages database connections and statements.
  *
- * @author zevtos
  */
 public class ConnectionManager {
     public static final String DB_URL = "jdbc:postgresql://localhost:9999/";

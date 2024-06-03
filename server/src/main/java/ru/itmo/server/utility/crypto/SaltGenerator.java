@@ -6,7 +6,6 @@ import java.util.Base64;
 /**
  * A utility class for generating salt strings for cryptographic purposes.
  *
- * @author zevtos
  */
 public class SaltGenerator {
 

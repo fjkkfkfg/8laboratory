@@ -6,7 +6,7 @@ import ru.itmo.general.network.Response;
 /**
  * Interface for all executable commands.
  *
- * @author zevtos
+
  */
 public interface Executable {
     /**

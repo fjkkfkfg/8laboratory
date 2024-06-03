@@ -9,7 +9,6 @@ import ru.itmo.general.utility.console.Console;
 /**
  * Команда 'exit'. Завершает выполнение программы (без сохранения в файл).
  *
- * @author zevtos
  */
 public class Exit extends Command {
 

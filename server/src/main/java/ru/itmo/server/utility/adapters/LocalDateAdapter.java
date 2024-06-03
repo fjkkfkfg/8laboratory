@@ -9,7 +9,6 @@ import java.time.format.DateTimeFormatter;
 /**
  * Адаптер для сериализации и десериализации объектов LocalDate в формате JSON.
  *
- * @author zevtos
  */
 public class LocalDateAdapter implements JsonSerializer<LocalDate>, JsonDeserializer<LocalDate> {
     /**

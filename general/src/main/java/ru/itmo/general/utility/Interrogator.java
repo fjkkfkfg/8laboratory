@@ -8,7 +8,6 @@ import java.util.Scanner;
  * Manages user input mode.
  * Controls whether input is from the console or a file.
  *
- * @author zevtos
  */
 public class Interrogator {
 

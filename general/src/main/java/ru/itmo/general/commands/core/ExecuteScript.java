@@ -7,7 +7,6 @@ import ru.itmo.general.network.Request;
 /**
  * Команда 'execute_script'. Выполнить скрипт из файла.
  *
- * @author zevtos
  */
 public class ExecuteScript extends Command {
     public ExecuteScript() {

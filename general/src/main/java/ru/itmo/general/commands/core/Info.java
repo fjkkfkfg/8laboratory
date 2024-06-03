@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 /**
  * Команда 'info'. Выводит информацию о коллекции.
  *
- * @author zevtos
  */
 public class Info extends Command {
     private CollectionManager<Route> routeCollectionManager;
@@ -24,7 +23,7 @@ public class Info extends Command {
     /**
      * Конструктор для создания экземпляра команды Info.
      *
-     * @param routeCollectionManager менеджер коллекции билетов
+     * @param routeCollectionManager менеджер коллекции маршрутов
      */
     public Info(CollectionManager<Route> routeCollectionManager) {
         this();

@@ -19,7 +19,6 @@ import static ru.itmo.server.utility.crypto.SaltGenerator.generateSalt;
  * The UserDAO class provides methods for interacting with the users table in the database.
  * It handles user creation, retrieval, updating, and password verification.
  *
- * @author zevtos
  */
 public class UserDAO implements Registered {
     private static final Logger LOGGER = LoggerFactory.getLogger("UserDAO");

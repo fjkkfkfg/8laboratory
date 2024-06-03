@@ -7,7 +7,6 @@ import java.util.Objects;
  * It encapsulates information about a command to be executed, along with optional data associated with the command.
  * Requests can be constructed with different combinations of parameters to convey different types of information.
  *
- * @author zevtos
  */
 public class Request extends Sendable {
     private static final long serialVersionUID = 1L;

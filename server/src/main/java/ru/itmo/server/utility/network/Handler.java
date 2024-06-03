@@ -17,7 +17,6 @@ import java.nio.channels.SocketChannel;
 /**
  * Handles incoming requests from clients on a separate thread.
  *
- * @author zevtos
  */
 class Handler extends Thread {
     private static final Logger logger = LoggerFactory.getLogger("Handler");

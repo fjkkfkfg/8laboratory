@@ -10,7 +10,6 @@ import ru.itmo.general.network.Response;
 /**
  * Команда 'clear'. Очищает коллекцию.
  *
- * @author zevtos
  */
 public class Clear extends Command {
     private CollectionManager<Route> ticketCollectionManager;

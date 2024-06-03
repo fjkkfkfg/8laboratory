@@ -13,7 +13,6 @@ import javax.management.InstanceAlreadyExistsException;
 /**
  * Command 'register'. Registers a new user in the system.
  *
- * @author zevtos
  */
 public class Register extends Command {
     public static final int MIN_PASSWORD_LENGTH = 8;

@@ -15,7 +15,6 @@ import java.rmi.AccessException;
 /**
  * Команда 'remove_head'. Выводит первый элемент коллекции и удаляет его.
  *
- * @author zevtos
  */
 public class RemoveHead extends Command {
     private CollectionManager<Route> routeCollectionManager;

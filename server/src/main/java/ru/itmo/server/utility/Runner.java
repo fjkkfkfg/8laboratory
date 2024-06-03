@@ -11,7 +11,6 @@ import java.io.InputStreamReader;
 /**
  * A class responsible for running and managing the server application.
  *
- * @author zevtos
  */
 public class Runner extends Thread {
     private static final Logger logger = LoggerFactory.getLogger(Runner.class);

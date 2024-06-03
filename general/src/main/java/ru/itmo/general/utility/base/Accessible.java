@@ -4,7 +4,6 @@ package ru.itmo.general.utility.base;
  * The {@code Accessible} interface represents objects that can be accessed by users with certain ownership rights.
  * Implementing classes should provide a way to check ownership of an object.
  *
- * @author zevtos
  */
 public interface Accessible {
 

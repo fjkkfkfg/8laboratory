@@ -9,7 +9,6 @@ import static ru.itmo.server.utility.crypto.SaltGenerator.generateSalt;
 /**
  * A utility class for hashing passwords using SHA-256 algorithm with salt.
  *
- * @author zevtos
  */
 public class PasswordHashing {
 

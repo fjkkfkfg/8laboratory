@@ -15,7 +15,6 @@ import java.rmi.AccessException;
 /**
  * Команда 'update'. Обновляет элемент коллекции.
  *
- * @author zevtos
  */
 public class Update extends Command {
     private CollectionManager<Route> routeCollectionManager;

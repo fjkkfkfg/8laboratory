@@ -6,7 +6,6 @@ import java.io.Serializable;
  * The {@code Element} abstract class serves as a base for elements that implement the {@code Comparable} and {@code Validatable} interfaces.
  * It provides common functionality for such elements.
  *
- * @author zevtos
  */
 public abstract class Element implements Comparable<Element>, Validatable, Serializable {
 

@@ -13,7 +13,6 @@ import static ru.itmo.server.managers.ConnectionManager.*;
 /**
  * Manages the database operations, including database creation, table creation, and user management.
  *
- * @author zevtos
  */
 public class DatabaseManager {
     private static final UserDAO userDAO = new UserDAO();

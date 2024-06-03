@@ -12,7 +12,6 @@ import ru.itmo.general.network.Response;
 /**
  * Команда 'max_by_name'. Выводит элемент с максимальным именем.
  *
- * @author zevtos
  */
 public class MaxByName extends Command {
     private CollectionManager<Route> routeCollectionManager;

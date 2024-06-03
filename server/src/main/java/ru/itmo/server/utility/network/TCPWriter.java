@@ -13,7 +13,6 @@ import java.nio.channels.SocketChannel;
 /**
  * Utility class for sending responses to clients over TCP connections.
  *
- * @author zevtos
  */
 public class TCPWriter {
     private static final Logger logger = LoggerFactory.getLogger("TCPWriter");

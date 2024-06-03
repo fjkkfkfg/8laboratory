@@ -3,7 +3,6 @@ package ru.itmo.general.exceptions;
 /**
  * Выбрасывается, если что-то введено вне диапазона допустимых значений.
  *
- * @author zevtos
  */
 public class InvalidRangeException extends Exception {
     private String message;

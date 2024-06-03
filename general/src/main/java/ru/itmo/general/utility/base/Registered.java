@@ -6,7 +6,6 @@ import ru.itmo.general.models.User;
  * The {@code Registered} interface represents the functionality related to user registration and authentication.
  * Classes implementing this interface handle user registration, password verification, etc.
  *
- * @author zevtos
  */
 public interface Registered {
 

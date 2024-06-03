@@ -10,7 +10,6 @@ import java.io.Serializable;
  * It encapsulates information about the success status, message, data payload, and optionally user credentials.
  * This class serves as an abstract base class for specific types of sendable objects.
  *
- * @author zevtos
  */
 @Getter
 @Setter

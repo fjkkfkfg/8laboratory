@@ -12,8 +12,6 @@ import java.util.Scanner;
 
 /**
  * Обеспечивает ввод команд и вывод результатов в стандартной консоли.
- *
- * @author zevtos
  */
 public class StandartConsole implements Console {
     private static final String PROMPT = "$ ";

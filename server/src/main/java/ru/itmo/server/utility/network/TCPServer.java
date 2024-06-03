@@ -12,7 +12,6 @@ import java.util.concurrent.Executors;
 /**
  * A TCP server that listens for incoming connections and handles them asynchronously.
  *
- * @author zevtos
  */
 public class TCPServer {
     private static final Logger logger = LoggerFactory.getLogger("TCPServer");

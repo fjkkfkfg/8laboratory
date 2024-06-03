@@ -8,7 +8,6 @@ import ru.itmo.general.network.Request;
 /**
  * Команда 'help'. Выводит справку по доступным командам.
  *
- * @author zevtos
  */
 public class Help extends Command {
 

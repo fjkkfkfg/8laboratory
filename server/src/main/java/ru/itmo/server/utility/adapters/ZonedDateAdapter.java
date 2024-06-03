@@ -9,7 +9,6 @@ import java.time.format.DateTimeFormatter;
 /**
  * Адаптер для сериализации и десериализации объектов ZonedDateTime в формате JSON.
  *
- * @author zevtos
  */
 public class ZonedDateAdapter implements JsonSerializer<ZonedDateTime>, JsonDeserializer<ZonedDateTime> {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ISO_ZONED_DATE_TIME;

@@ -16,7 +16,6 @@ import java.rmi.AccessException;
 /**
  * Команда 'remove_by_id'. Удаляет элемент из коллекции по ID.
  *
- * @author zevtos
  */
 public class Remove extends Command {
     private CollectionManager<Route> routeCollectionManager;
@@ -29,7 +28,7 @@ public class Remove extends Command {
     /**
      * Конструктор для создания экземпляра команды Remove.
      *
-     * @param routeCollectionManager менеджер коллекции билетов
+     * @param routeCollectionManager менеджер коллекции маршрутов
      */
     public Remove(CollectionManager<Route> routeCollectionManager, Accessible dao) {
         this();
@@ -51,7 +50,7 @@ public class Remove extends Command {
 
             var id = ((Integer) request.getData());
             if (!dao.checkOwnership(id, request.getUserId()))
-                throw new AccessException("ПХАХАХАХАХХАХАХАХАХАХ БЛЯТЬ у Вас нет доступа");
+                throw new AccessException("ПХАХАХАХАХХАХАХАХАХАХ БЛ*** у Вас нет доступа");
             if (!routeCollectionManager.remove(id)) throw new NotFoundException();
 
             return new Response(true, "Маршрут успешно удален.");
@@ -59,7 +58,7 @@ public class Remove extends Command {
         } catch (EmptyValueException exception) {
             return new Response(false, "Коллекция пуста!");
         } catch (NotFoundException exception) {
-            return new Response(false, "Билета с таким ID в коллекции не существует или он был создан не вами!");
+            return new Response(false, "Маршрута с таким ID в коллекции не существует или он был создан не вами!");
         } catch (AccessException e) {
             return new Response(false, e.getMessage());
         }

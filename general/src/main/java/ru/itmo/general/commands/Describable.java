@@ -3,7 +3,6 @@ package ru.itmo.general.commands;
 /**
  * Interface for objects that can be named and described.
  *
- * @author zevtos
  */
 public interface Describable {
     /**

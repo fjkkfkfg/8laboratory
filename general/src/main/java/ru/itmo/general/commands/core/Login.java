@@ -10,8 +10,6 @@ import ru.itmo.general.utility.base.Registered;
 
 /**
  * Command 'login'. Logs in a user to the system.
- *
- * @author zevtos
  */
 public class Login extends Command {
     private Registered userDAO;

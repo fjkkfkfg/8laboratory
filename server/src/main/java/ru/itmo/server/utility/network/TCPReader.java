@@ -14,7 +14,6 @@ import java.nio.channels.SocketChannel;
  * A runnable task for reading incoming requests from a client's socket channel.
  * It reads data from the channel, parses it, and delegates further processing to a handler.
  *
- * @author zevtos
  */
 public class TCPReader implements Runnable {
     private static final Logger logger = LoggerFactory.getLogger("TCPReader");

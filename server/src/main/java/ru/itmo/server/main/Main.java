@@ -15,7 +15,6 @@ import static ru.itmo.server.managers.DatabaseManager.createDatabaseIfNotExists;
 /**
  * Главный класс приложения.
  *
- * @author zevtos
  */
 public class Main {
     private static final int MISSING_FILE_ARGUMENT_EXIT_CODE = 1;

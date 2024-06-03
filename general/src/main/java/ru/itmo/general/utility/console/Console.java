@@ -5,7 +5,6 @@ package ru.itmo.general.utility.console;
  * It includes methods for printing objects, errors, and tables, as well as prompting for user input.
  * Implementing classes should provide implementations for these methods.
  *
- * @author zevtos
  */
 public interface Console {
 
